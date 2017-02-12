@@ -1,42 +1,41 @@
 #pragma once
 
+#include <stack>
+#include <vector>
+
 #include "MenuElement.h"
+#include "MenuRenderer.h"
+
+using namespace std;
+
+class MenuElement;
 
 class MenuController
 {
 public:
-	MenuController(MenuElement *rootElement)
-	{
-		_pRootElement = rootElement;
-		_pCurrentElement = rootElement;
-	}
+	MenuController(MenuElement *rootElement);
 
-	bool UserBack()
-	{
+	void RegisterMenuElement(MenuElement* pElement);
 
-	}
+	bool UserBack();
 
-	bool UserSelect()
-	{
+	bool UserSelect();
 
-	}
+	bool UserUp();
+	bool UserDown();
 
-	bool UserUp()
-	{
+	// Returns true if navigation successfull.
+	bool NavigateBack();
 
-	}
-
-	bool UserDown()
-	{
-
-	}
-
-	void SetCurrentElement(MenuElement *currentElement)
-	{
-		_pCurrentElement = currentElement;
-	}
+	void AddRenderer(MenuRenderer* pRenderer);
+	void InvalidateRender(MenuElement* pElement);
 
 private:
 	MenuElement* _pRootElement;
 	MenuElement* _pCurrentElement;
+	stack<MenuElement*> _previousElements;
+	vector<MenuRenderer*> _renderers;
+
+	void PushNewElement(MenuElement *currentElement);
+	void PopPrevElement();
 };
